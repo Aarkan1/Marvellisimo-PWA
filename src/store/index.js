@@ -5,9 +5,11 @@ export const store = new Vuex.Store({
     test
   },
   state: {
-  
+    user: null
   },
   mutations: {
-    
+    setUser(state, user) {
+      state.user = user
+    }    
   }
 })
