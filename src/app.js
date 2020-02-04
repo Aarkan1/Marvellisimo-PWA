@@ -1,5 +1,5 @@
 import navbar from './components/navbar.js'
-import { client, collUsers } from './libs/stitch.js'
+import { client, collUsers } from './services/stitch.js'
 
 export default {
   components: {
@@ -9,7 +9,9 @@ export default {
     <div id="app">
       <navbar />
       <main class="container">
-        <router-view />
+        <transition enter-active-class="animated slideInUp" mode="out-in">  
+          <router-view class="animation-speed" :key="$route.fullPath" />
+        </transition>
       </main>
     </div>
   `,
@@ -23,6 +25,7 @@ export default {
       this.$store.commit('setUser', result)
       result.isOnline = true
       result && await collUsers.findOneAndReplace({ uid: result.uid }, result).catch(console.error)
+      console.log("Logged in:", result);
     }
   }
 }

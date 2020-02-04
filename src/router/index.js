@@ -4,6 +4,7 @@ import recievedMessagesPage from '../views/recievedMessagesPage.js'
 import friendsPage from '../views/friendsPage.js'
 import searchPage from '../views/searchPage.js'
 import searchListPage from '../views/searchListPage.js'
+import detailsPage from '../views/detailsPage.js'
 import loginPage from '../views/loginPage.js'
 import missingPage from "../views/missingPage.js";
 
@@ -45,12 +46,12 @@ export const router = new VueRouter({
       path: '/search/:term', 
       component: searchListPage
     },
-    // {
-    //   name: "testWithParams",
-    //   path: '/test-with-params/:text',
-    //   component: testWithParams,
-    //   params: true
-    // },
+    {
+      name: "detailsPage",
+      path: '/details/:id', 
+      component: detailsPage,
+      params: true
+    },
     {
       path: '*',
       component: missingPage,

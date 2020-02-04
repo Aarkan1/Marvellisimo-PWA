@@ -1,22 +1,21 @@
-import { client, collUsers } from '../libs/stitch.js'
+import { client, collUsers } from '../services/stitch.js'
 
 export default {
   template: `
-    <form @submit.prevent>
+    <form @submit.prevent id="login-page">
       <div class="input-field">
-        <input id="username" v-model="username" type="text" class="validate">
-        <label for="username">Username</label>
+        <input id="username" placeholder="Username" v-model="username" type="text" class="validate">
       </div>
       <div class="input-field">
-        <input id="email" v-model="email" type="email" class="validate">
-        <label for="email">Email</label>
+        <input id="email" placeholder="Email" v-model="email" type="email" class="validate">
       </div>
       <div class="input-field">
-        <input id="password" v-model="password" type="password" class="validate">
-        <label for="password">Password</label>
+        <input id="password" placeholder="Password" v-model="password" type="password" class="validate">
       </div>
-      <button class="btn" @click="login()">login</button>
-      <button class="btn" @click="register()">register</button>
+      <div class="login-buttons">
+        <button class="btn" @click="login()">login</button>
+        <button class="btn" @click="register()">register</button>
+      </div>
     </form>
   `,
   data() {
@@ -77,7 +76,6 @@ export default {
         uid: id,
         username: this.username,
         email: this.email,
-        avatar: '',
         isOnline: true,
         favoriteSeries: [],
         favoriteCharacters: []

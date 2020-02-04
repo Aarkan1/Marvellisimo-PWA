@@ -1,0 +1,209 @@
+* {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+}
+
+:root {
+  --color-primary: #3F51B5;
+  --color-primary-dark: #303F9F;
+  --color-primary-light: #C5CAE9;
+  --color-accent: #FFC107;
+  --color-primary-text: #212121;
+  --color-secondary-text: #757575;
+  --color-icons: #FFFFFF;
+  --color-divider: #BDBDBD;
+}  
+
+main {
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+.animation-speed {
+  animation-duration: 200ms;
+}
+
+body {
+  min-height: 100vh;
+  width: 100vw;
+  background-image: url("../assets/marvel_bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#app {
+  color: var(--color-primary-text);
+}
+
+nav { 
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  background-color: var(--color-primary);
+}
+
+nav i {
+  display: inline-block !important;
+  font-size: 2rem !important;
+}
+
+#home {
+  text-align: center;
+}
+
+#home > h1 {
+  font-size: 3em;
+  color: var(--color-accent);
+  margin: 20%;
+}
+
+#home .menu-item {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  height: 60px;
+  width: 85%;
+  border-radius: 35px;
+  background-color: var(--color-primary-light);
+  margin: 25px;
+  padding: 5px;
+  font-size: 1.5rem;
+}
+
+#home .menu-item i {
+  border-radius: 25px;
+  padding: 5px;
+  font-size: 3rem;
+  color: var(--color-icons);
+  background-color: var(--color-primary);
+}
+
+#home .menu-item p {
+  color: var(--color-primary-text);
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 
+      SEARCH
+*/
+#search-page {
+  position: absolute;
+  padding: 15px;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-text);
+}
+
+.input-field.search {
+  font-size: 1.5em;
+
+}
+
+.seach-history {
+  font-size: 1.5em;
+}
+
+.seach-history li{
+  padding: 15px;
+  border-bottom: solid 1px var(--color-divider);
+}
+
+
+/* 
+      SEARCH LIST PAGE
+*/
+
+#search-list-page > .switch {
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+#search-list-page > .switch label {
+  font-size: 1.3em;
+  color: var(--color-icons);          
+}
+
+#search-list-page .card.small {
+  height: 120px;
+  display: flex;
+}
+
+#search-list-page .card.small .card-content {
+  flex: 1;
+  max-height: 100%;
+}
+
+#search-list-page .card.small .card-image {
+  flex: 1;
+  max-height: 100%;
+}
+
+/* 
+      LOGIN
+*/
+
+
+#login-page .input-field {
+  background-color: var(--color-primary-light);
+  border-radius: 30px;
+  padding: 0 15px;
+}
+
+::placeholder {
+  color: var(--color-secondary-text);
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* 
+      DETAILS
+*/
+
+#details-page {
+  color: var(--color-icons);
+}
+
+#details-page p {
+  font-size: 1.5em;
+}
+
+/* 
+      FRIENDS
+*/
+
+#friends-page > .switch {
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+#friends-page > .switch label {
+  font-size: 1.3em;
+  color: var(--color-icons);          
+}
+
+#friends-page {
+  text-align: center;
+  color: var(--color-icons);
+}
+
+#friends-page li {
+  font-size: 1.5em;
+  padding: 15px;
+  border-bottom: solid 1px var(--color-divider);
+}

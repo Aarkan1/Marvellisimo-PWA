@@ -1,31 +1,51 @@
 export default {
   template: `
-    <div>
-      <div class="input-field col s6">
-        <i class="material-icons prefix">search</i>
-        <input id="icon_prefix" type="text" class="validate">
-        <label for="icon_prefix">Search</label>
+    <div id="search-page">
+      <div class="row">
+        <div class="input-field search col s10">
+          <i class="material-icons prefix">search</i>
+          <input id="icon_prefix" @keyup.enter="doSearch" v-model="searchTerm" type="text">
+          <label for="icon_prefix">Search</label>
+        </div>
+        <button class="btn-floating btn-large btn-flat" @click="doSearch"><i class="material-icons black-text">image_search</i></button>
       </div>
 
-      <ul>
-        <li v-for="item of searchHistory" :key="item">{{ item }}</li>
+      <ul class="seach-history" @click="useSearchHistory">
+        <li v-for="item of searchHistory" :key="item.term">{{ item.term }}</li>
       </ul>
     </div>
   `,
   data() {
     return {
-      searchHistory: []
+      searchHistory: [],
+      searchTerm: ''
+    }
+  },
+  methods: {
+    doSearch(){
+      const inList = this.searchHistory.filter(item => item.term == this.searchTerm).length > 0
+
+      if(!inList) {
+        this.searchHistory.push({ 
+          term: this.searchTerm,
+          ts: Date.now()
+        })
+      } else {
+        this.searchHistory.forEach(item => item.term == this.searchTerm && (item.ts = Date.now()))
+      }
+      localStorage.setItem("search-history", JSON.stringify(this.searchHistory))
+      this.$router.push('/search/' + this.searchTerm)
+    },
+    useSearchHistory(e) {
+      this.searchTerm = e.target.innerText
+      this.doSearch()
     }
   },
   created() {
-    // const searchHistory = [
-    //   'spider-man',
-    //   'ant',
-    //   'hulk'
-    // ]
-    // localStorage.setItem("search-history", JSON.stringify(searchHistory))
-    this.searchHistory = JSON.parse(localStorage.getItem("search-history"))
-    console.log("Search history:", this.searchHistory);
-    
+    this.$store.commit('setLogo', 'Search')
+    this.searchHistory = JSON.parse(localStorage.getItem("search-history")) || []
+    this.searchHistory.sort((a, b) => a.ts > b.ts ? -1 : 1)
+
+    M.updateTextFields()
   }
 }

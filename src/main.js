@@ -1,8 +1,7 @@
-import './libs/stitch.js'
+import './services/stitch.js'
 import { router } from './router/index.js'
 import { store } from './store/index.js'
 import app from './app.js'
-
 
 new Vue({
   store,

@@ -1,14 +1,14 @@
-import { client, collUsers } from '../libs/stitch.js'
+import { client, collUsers } from '../services/stitch.js'
 
 export default {
   template: `
-    <nav>
-      <router-link to="/">home</router-link> |
-      <router-link to="/recieved-messages">recieved messages</router-link> |
-      <router-link to="/friends">friends</router-link> |
-      <router-link to="/favorites">favorites</router-link>
-      <button class="btn btn-flat" @click="signOut()"><i class="material-icons">exit_to_app</i></button>
+  <div class="navbar-fixed">
+    <nav class="nav-wrapper">
+      <router-link to="/"><i class="material-icons">arrow_back</i></router-link>
+      <h5>{{ $store.state.logo }}</h5>
+      <i class="material-icons" @click="signOut()">exit_to_app</i>
     </nav>
+  </div>
   `,
   methods: {
     async signOut() {
