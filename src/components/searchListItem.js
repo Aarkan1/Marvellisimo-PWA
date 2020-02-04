@@ -2,7 +2,7 @@ export default {
   template: `
     <div @click="goToDetails" class="card small waves-effect waves-light">
       <div class="card-image">
-        <img :src="data.thumbnail.path + '.' + data.thumbnail.extension" />
+        <img :src="data.thumbnail.path.replace('http:', 'https:') + '.' + data.thumbnail.extension" />
       </div>
       <div class="card-content">
       <span class="card-title">
@@ -16,7 +16,7 @@ export default {
   computed: {
     isFavorited() {
       if(!this.$store.state.user) return
-      
+
       let isChar = !!this.data.name
       return this.$store.state.user[isChar ? 'favoriteCharacters' : 'favoriteSeries']
         .filter(charID => charID == this.data.id).length > 0
