@@ -1,4 +1,4 @@
-import { getMarvels } from '../services/marvelProvider.js'
+import { collUsers } from '../services/stitch.js'
 
 export const store = new Vuex.Store({
   state: {
@@ -9,19 +9,23 @@ export const store = new Vuex.Store({
   },
   mutations: {
     async setUser(state, user) {
-      state.user = user
-
-      state.user.favoriteCharacters = await Promise.all(state.user.favoriteCharacters.map(async charID => await getMarvels('characters', '', charID)))
-      state.user.favoriteSeries = await Promise.all(state.user.favoriteSeries.map(async serieID => await getMarvels('series', '', serieID)))
+      state.user = {...user}
+      await IDB.write('user-data', user)
     },   
     setLogo(state, logo) {
       state.logo = logo
     },
-    setCharacterList(state, characterList) {
-      state.characterList = [...characterList]
+    setCharList(state, list) {
+      state.characterList = [...list]
     },
-    setSerieList(state, serieList) {
-      state.serieList = [...serieList]
-    },
+    setSerieList(state, list) {
+      state.serieList = [...list]
+    }
+  },
+  actions: {
+    async updateUser(store) {
+      store.state.user && await collUsers.findOneAndReplace({ uid: store.state.user.uid }, store.state.user).catch(console.error)
+      store.commit('setUser', store.state.user)
+    }
   }
 })

@@ -4,27 +4,29 @@ export default {
   template: `
     <div id="details-page">
       <div>
-        <img :src="item.thumbnail.path + '.' + item.thumbnail.extension" />
+        <img v-if="item.thumbnail" :src="item.thumbnail.path + '.' + item.thumbnail.extension" />
       </div>
-      <h3>{{ item.name || item.title }}</h3>
-      <p>{{ item.description }}</p>
+      <h3 class="container">{{ item.name || item.title }}</h3>
+      <p class="container">{{ item.description }}</p>
     </div>
   `,
   data() {
     return {
       item: {
         name: '',
-        thumbnail: {
-          path: '',
-          extension: ''
-        },
         description: ''
       }
     }
   },
   async created() {
+    let list = this.$store.state[this.$route.query.char ? 'characterList' : 'serieList']
+    let storedData = list.filter(item => item.id == this.$route.params.id)[0]
+    if(storedData) {
+      this.item = storedData
+      return
+    } 
+
     this.result = await getMarvels(this.$route.query.char ? 'characters' : 'series', '', this.$route.params.id)
     this.item = this.result[0]
-    console.log(this.item);
   }
 }

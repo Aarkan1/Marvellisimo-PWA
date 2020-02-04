@@ -8,11 +8,29 @@ let ts = Date.now()
 let hash = md5(ts + PRIVATE_KEY + PUBLIC_KEY)
 
 export async function getMarvels(charOrSerie = 'characters', name = '', id = '') {
-  let nameOrTitle = charOrSerie == 'characters' ? 'name' : 'title'
-  let url = BASE_URL + `${charOrSerie}${id ? '/' + id : ''}?${nameOrTitle}StartsWith=${name}&orderBy=${nameOrTitle}&apikey=${PUBLIC_KEY}&ts=${ts}&hash=${hash}`
+
+  let fromIDB = await IDB.read('marvels', charOrSerie + (name || id))
+  if(fromIDB) return fromIDB.data
+
+  let nameOrTitle = charOrSerie == 'characters' ? '?name' : '?title'
+  nameOrTitle += 'StartsWith=' + name + '&'
+  if(!name) nameOrTitle = '?'
+
+  let url = BASE_URL + `${charOrSerie}${
+    id ? '/' + id : ''
+    }${nameOrTitle}orderBy=${
+      charOrSerie == 'characters' ? 'name' : 'title'
+    }&apikey=${PUBLIC_KEY}&ts=${ts}&hash=${hash}`
   
-  let results = await fetch(url).catch(console.error)
+  let results = await fetch(url).catch()
   results = await results.json()
+
+  let idbData = {
+    id: charOrSerie + (name || id),
+    data: results.data.results
+  }
+
+  await IDB.write('marvels', idbData)
 
   return results.data.results
 }

@@ -2,7 +2,7 @@ import { collUsers } from '../services/stitch.js'
 
 export default {
   template: `
-    <div id="friends-page">
+    <div id="friends-page" class="container">
     <div class="switch">
       <label>
         Offline

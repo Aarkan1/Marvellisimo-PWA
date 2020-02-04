@@ -175,7 +175,14 @@ nav i {
 */
 
 #details-page {
-  color: var(--color-icons);
+  color: var(--color-primary-text);
+  background-color: var(--color-primary-light);
+  min-height: 100%;
+}
+
+#details-page p {
+  padding: 25px 0;
+/* margin: 0; */
 }
 
 #details-page p {

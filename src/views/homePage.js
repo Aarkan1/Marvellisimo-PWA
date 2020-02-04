@@ -1,6 +1,6 @@
 export default {
   template: `
-  <div id="home">
+  <div id="home" class="container">
     <h1>Marvellisimo</h1>
       
     <router-link to="/search">

@@ -8,7 +8,7 @@ export default {
   template: `
     <div id="app">
       <navbar />
-      <main class="container">
+      <main>
         <transition enter-active-class="animated slideInUp" mode="out-in">  
           <router-view class="animation-speed" :key="$route.fullPath" />
         </transition>
@@ -21,11 +21,21 @@ export default {
     if(!client.auth.isLoggedIn) {
       this.$router.replace("/login")
     } else {
-      const result = await collUsers.findOne({ uid: client.auth.user.id }).catch(console.error)
-      this.$store.commit('setUser', result)
-      result.isOnline = true
-      result && await collUsers.findOneAndReplace({ uid: result.uid }, result).catch(console.error)
-      console.log("Logged in:", result);
+      let user = await IDB.read('user-data', client.auth.user.id)
+      console.log(user);
+      
+      this.$store.commit('setUser', user)
+
+      setTimeout(async () => {
+        user = await collUsers.findOne({ uid: client.auth.user.id }).catch(e => {
+          return
+        })
+        if(!user) return
+        this.$store.commit('setUser', user)
+        user.isOnline = true
+        user && await collUsers.findOneAndReplace({ uid: user.uid }, user).catch(console.error)
+        console.log("Logged in:", user);
+      }, 50);
     }
   }
 }

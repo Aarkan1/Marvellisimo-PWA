@@ -6,7 +6,7 @@ export default {
     searchListItem
   },
   template: `
-    <div id="search-list-page">
+    <div id="search-list-page" class="container">
     <div class="switch">
       <label>
         Series
@@ -29,10 +29,8 @@ export default {
     }
   },
   async created() {
-    console.log(this.$route.params.term);
-    
     this.$store.commit('setLogo', this.$route.params.term)
-    this.$store.commit('setCharacterList', await getMarvels('characters', this.$route.params.term))
+    this.$store.commit('setCharList', await getMarvels('characters', this.$route.params.term))
     this.$store.commit('setSerieList', await getMarvels('series', this.$route.params.term))
   }
 }
