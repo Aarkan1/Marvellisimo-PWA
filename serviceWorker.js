@@ -3,6 +3,7 @@ importScripts('/src/services/IndexedDB-utils.js')
 
 const preCache = [
   '/',
+  '/index.html',
   '/favorites',
   '/recieved-messages',
   '/friends',
@@ -32,7 +33,6 @@ const activateEvent = async () => {
 
 const cacheFirst = async e => {
   let response = await caches.match(e.request);
-  if(e.request.url.includes('src/main')) console.log(response);
   
   if (response) {
     return response;
@@ -40,7 +40,7 @@ const cacheFirst = async e => {
     let res = await fetch(e.request).catch(async e => {
       // offline fallback
       let staticCache = await caches.open(STATIC_CACHE);
-      return staticCache.match("/");
+      return staticCache.match("/index.html");
     });
 
     let cache = await caches.open(DYNAMIC_CACHE);
@@ -73,6 +73,6 @@ self.addEventListener("activate", e => {
 });
 
 self.addEventListener("fetch", e => {
-  if (e.request.method !== "GET") return
+  if (e.request.method !== "GET" || e.request.url.includes('marvel/i/mg')) return
   return e.respondWith(cacheFirst(e))
 });

@@ -4,7 +4,8 @@ export default {
   template: `
   <div class="navbar-fixed">
     <nav class="nav-wrapper">
-      <router-link to="/"><i class="material-icons">arrow_back</i></router-link>
+      <router-link v-if="$route.path != '/'" to="/"><i class="material-icons">arrow_back</i></router-link>
+      <p v-else id="arrow-placeholder"></p>
       <h5>{{ $store.state.logo }}</h5>
       <i class="material-icons" @click="signOut()">exit_to_app</i>
     </nav>

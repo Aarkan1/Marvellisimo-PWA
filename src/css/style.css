@@ -50,6 +50,11 @@ nav i {
   font-size: 2rem !important;
 }
 
+#arrow-placeholder {
+  margin: 0;
+  width: 28px;
+}
+
 #home {
   text-align: center;
 }
@@ -58,6 +63,8 @@ nav i {
   font-size: 3em;
   color: var(--color-accent);
   margin: 20%;
+  font-weight: 700;
+  margin: 20% 0;
 }
 
 #home .menu-item {
@@ -143,6 +150,14 @@ nav i {
 #search-list-page .card.small .card-content {
   flex: 1;
   max-height: 100%;
+  position: relative;
+}
+
+#search-list-page .card.small .card-content i {
+  font-size: 3em;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 #search-list-page .card.small .card-image {
