@@ -16,5 +16,7 @@
     "url": "https://github.com/Aarkan1/Marvellisimo-PWA/issues"
   },
   "homepage": "https://github.com/Aarkan1/Marvellisimo-PWA#readme",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
