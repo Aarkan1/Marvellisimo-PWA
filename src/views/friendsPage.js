@@ -1,4 +1,4 @@
-import { collUsers } from '../services/stitch.js'
+import { collUsers, collSend } from '../services/stitch.js'
 
 export default {
   template: `
@@ -13,23 +13,61 @@ export default {
     </div>
       <h3>{{ onlineFriends ? 'Online' : 'Offline' }}</h3>
 
-      <ul>
-        <li v-for="friend in filteredFriends" :key="friend.uid">{{ friend.username }}</li>
+      <div v-if="!loadedLists" class="spinner">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <ul v-else>
+        <li v-for="friend in filteredFriends" 
+        @click="sendMarvel(friend.uid)"
+        :key="friend.uid"
+        >{{ friend.username }}</li>
       </ul>
     </div>
   `,
   data() {
     return {
       onlineFriends: true,
-      friends: []
+      friends: [],
+      toSend: false,
+      sendData: null,
+      loadedLists: false
+    }
+  },
+  methods: {
+    async sendMarvel(toUserId) {
+      this.sendData.receiverId = toUserId
+      await collSend.insertOne(this.sendData).catch(console.error)
+
+      M.toast({
+        html: '<div class="toast-text">Sent Marvel</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
+
+      this.$router.push("/")
     }
   },
   computed: {
     filteredFriends() {
-      return this.friends.filter(friend => friend.isOnline == this.onlineFriends)
+      return this.friends.filter(friend => friend.isOnline == this.onlineFriends && friend.uid != this.$store.state.user.uid)
     }
   },
   async created() {
     this.friends = await collUsers.find().asArray()
+
+    this.loadedLists = true
+
+    this.toSend = this.$route.query.toSend
+    this.sendData = this.$route.query.data
   }
 }

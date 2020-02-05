@@ -26,8 +26,11 @@ export default {
 
       client.auth.logout()
       this.$store.commit('setUser', null)
-      console.log("Logging out");
-
+      M.toast({
+        html: '<div class="toast-text">Successfully signed out</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
       this.$router.push("/login")
     }
   }

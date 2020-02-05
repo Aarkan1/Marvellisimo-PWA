@@ -16,7 +16,20 @@ export default {
           Characters
         </label>
       </div>
-      <div v-if="activeList[0] && activeList[0].thumbnail">
+      <div v-if="!loadedLists" class="spinner">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else> 
         <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" @updateFavorite="updateFavorite" />
       </div>
     </div>
@@ -25,7 +38,8 @@ export default {
     return {
       displayChar: true, 
       favoriteCharacters: [], 
-      favoriteSeries: []
+      favoriteSeries: [],
+      loadedLists: false
     }
   },
   computed: {
@@ -49,5 +63,7 @@ export default {
 
     this.favoriteCharacters = this.favoriteCharacters.flat()
     this.favoriteSeries = this.favoriteSeries.flat()
+
+    this.loadedLists = true
   }
 }

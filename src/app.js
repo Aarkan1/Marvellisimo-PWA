@@ -28,13 +28,22 @@ export default {
 
       setTimeout(async () => {
         user = await collUsers.findOne({ uid: client.auth.user.id }).catch(e => {
+          M.toast({
+            html: '<div class="toast-text">Currently offline</div>', 
+            classes: 'toast', 
+            displayLength: 2000
+          })
           return
         })
         if(!user) return
         this.$store.commit('setUser', user)
         user.isOnline = true
         user && await collUsers.findOneAndReplace({ uid: user.uid }, user).catch(console.error)
-        console.log("Logged in:", user);
+        M.toast({
+          html: '<div class="toast-text">Successfully signed in</div>', 
+          classes: 'toast', 
+          displayLength: 2000
+        })
       }, 50);
     }
   }

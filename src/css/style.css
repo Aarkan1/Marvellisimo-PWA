@@ -17,6 +17,27 @@ img {
   --color-divider: #BDBDBD;
 }  
 
+.toast {
+  margin: 50px 10%;
+  width: 80%;
+  font-size: 1.5em;
+  color: var(--color-primary-text);
+  background-color: var(--color-primary-light);
+  border-radius: 25px;
+}
+
+.toast-text {
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+}
+
+.send-marvel-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+
 main {
   height: calc(100vh - 56px);
   overflow-y: auto;
@@ -142,25 +163,39 @@ nav i {
   color: var(--color-icons);          
 }
 
-#search-list-page .card.small {
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding-top: 30vh;
+}
+
+.login-spinner{
+  padding-top: 30px;
+}
+
+.card.small {
   height: 120px;
   display: flex;
 }
 
-#search-list-page .card.small .card-content {
+.card.small .card-content {
   flex: 1;
-  max-height: 100%;
+  max-height: 100% !important;
   position: relative;
 }
 
-#search-list-page .card.small .card-content i {
-  font-size: 3em;
-  position: absolute;
-  top: px;
-  right: px;
+.card .card-title {
+  font-size: 1.5em !important;
 }
 
-#search-list-page .card.small .card-image {
+.card.small .card-content i {
+  font-size: 3em;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.card.small .card-image {
   flex: 1;
   max-height: 100%;
 }
@@ -168,7 +203,9 @@ nav i {
 /* 
       LOGIN
 */
-
+#login-page {
+  padding-top: 20vh;
+}
 
 #login-page .input-field {
   background-color: var(--color-primary-light);
@@ -228,4 +265,13 @@ nav i {
   font-size: 1.5em;
   padding: 15px;
   border-bottom: solid 1px var(--color-divider);
+}
+#recieved-messages-page .card-content {
+  max-height: 100%;
+  padding: 5px;
+}
+#recieved-messages-page p {
+  font-size: 1.2em;
+  color: var(--color-primary-text); 
+  padding: 0;
 }

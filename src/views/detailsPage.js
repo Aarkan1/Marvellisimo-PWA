@@ -8,6 +8,7 @@ export default {
       </div>
       <h3 class="container">{{ item.name || item.title }}</h3>
       <p class="container">{{ item.description }}</p>
+      <button @click="sendMarvel" class="send-marvel-btn btn-floating blue darken-3 btn-large waves-effect waves-light"><i class="material-icons">send</i></button>
     </div>
   `,
   data() {
@@ -16,6 +17,25 @@ export default {
         name: '',
         description: ''
       }
+    }
+  },
+  methods: {
+    sendMarvel() {
+      let data = {
+        senderId: this.$store.state.user.uid, 
+        itemId: '' + this.item.id,
+        type: this.$route.query.char ? "character" : "serie",
+        senderName: this.$store.state.user.username,
+        date: '' + Date.now()
+      }
+
+      this.$router.push({
+        path: '/friends',
+        query: {
+          toSend: true,
+          data
+        }
+      })
     }
   },
   async created() {

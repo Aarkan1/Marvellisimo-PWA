@@ -2,7 +2,7 @@ import { client, collUsers } from '../services/stitch.js'
 
 export default {
   template: `
-    <form @submit.prevent id="login-page" class="container">
+    <form @submit.prevent="login()" id="login-page" class="container">
       <div class="input-field">
         <input id="username" placeholder="Username" v-model="username" type="text" class="validate">
       </div>
@@ -16,27 +16,47 @@ export default {
         <button class="btn" @click="login()">login</button>
         <button class="btn" @click="register()">register</button>
       </div>
+      <div v-if="loggingIn" class="spinner login-spinner">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     </form>
   `,
   data() {
     return {
       username: '',
-      email: 'loke@loke.se',
-      password: 'loke123'
+      email: '',
+      password: '',
+      loggingIn: false
     }
   },
   methods: {
     async login(registered = false) {
+      this.loggingIn = true
       const { UserPasswordCredential } = stitch
 
       const credential = new UserPasswordCredential(this.email, this.password)
       const user = await client.auth.loginWithCredential(credential)
       .catch(err => {
+        this.loggingIn = false
+        M.toast({
+          html: '<div class="toast-text">Bad username/password</div>', 
+          classes: 'toast', 
+          displayLength: 2000
+        })
         console.error(err)
       })
     
       console.log("Signed in user:", user)
-      // await db.collection('users').updateOne({owner_id: client.auth.user.id}, {$set:{number:42}}, {upsert:true})
       let result;
 
       if(registered) {
@@ -51,7 +71,7 @@ export default {
         result.isOnline = true
         result && await collUsers.findOneAndReplace({ uid: result.uid }, result).catch(console.error)
       }
-        
+      
       this.$store.commit('setUser', result)
       this.$router.replace("/")
     },
@@ -62,11 +82,20 @@ export default {
     
       const result = await emailPasswordClient.registerWithEmail(this.email, this.password)
       .catch(err => {
+        M.toast({
+          html: '<div class="toast-text">Bad username/password</div>', 
+          classes: 'toast', 
+          displayLength: 2000
+        })
         console.error("Error registering new user:", err)
         return
       })
 
-      console.log(result);
+      M.toast({
+        html: '<div class="toast-text">Successfully registered</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
 
       this.login(true)
     },

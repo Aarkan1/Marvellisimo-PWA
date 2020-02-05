@@ -15,12 +15,28 @@ export default {
         Characters
       </label>
     </div>
-      <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" />
+    <div v-if="!loadedLists" class="spinner">
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div v-else>
+        <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" />
+      </div>
     </div>
   `,
   data() {
     return {
-      displayChar: true
+      displayChar: true,
+      loadedLists: false
     }
   },
   computed: {
@@ -32,5 +48,6 @@ export default {
     this.$store.commit('setLogo', this.$route.params.term)
     this.$store.commit('setCharList', await getMarvels('characters', this.$route.params.term))
     this.$store.commit('setSerieList', await getMarvels('series', this.$route.params.term))
+    this.loadedLists = true
   }
 }
