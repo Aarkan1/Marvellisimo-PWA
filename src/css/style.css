@@ -80,7 +80,8 @@ nav i {
   text-align: center;
 }
 
-#home > h1 {
+.marvel-logo {
+  text-align: center;
   font-size: 3em;
   color: var(--color-accent);
   margin: 20%;
@@ -203,9 +204,6 @@ nav i {
 /* 
       LOGIN
 */
-#login-page {
-  padding-top: 20vh;
-}
 
 #login-page .input-field {
   background-color: var(--color-primary-light);

@@ -3,6 +3,7 @@ import { client, collUsers } from '../services/stitch.js'
 export default {
   template: `
     <form @submit.prevent="login()" id="login-page" class="container" autocomplete="off">
+      <h1 class="marvel-logo">Marvellisimo</h1>
       <div class="input-field">
         <input id="username" placeholder="Username" v-model="username" type="text" class="validate">
       </div>
