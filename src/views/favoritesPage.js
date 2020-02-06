@@ -54,16 +54,26 @@ export default {
     }
   },
   async created() {
+    this.$store.commit("setLogo", "Favorites")
     while(!this.$store.state.user) await sleep(20)
 
-    console.log(this.$store.state.user);
-    
+    this.timeout = setTimeout(() => {
+      M.toast({
+        html: '<div class="toast-text">Timeout loading</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
+
+      this.$router.push("/")
+    }, 1000 * 5);
+
     await Promise.all(this.$store.state.user.favoriteCharacters.map(async charID => this.favoriteCharacters.push(await getMarvels('characters', '', charID))))
     await Promise.all(this.$store.state.user.favoriteSeries.map(async serieID => this.favoriteSeries.push(await getMarvels('series', '', serieID))))
 
     this.favoriteCharacters = this.favoriteCharacters.flat()
     this.favoriteSeries = this.favoriteSeries.flat()
 
+    clearTimeout(this.timeout)
     this.loadedLists = true
   }
 }

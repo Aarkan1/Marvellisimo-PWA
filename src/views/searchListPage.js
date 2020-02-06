@@ -46,8 +46,19 @@ export default {
   },
   async created() {
     this.$store.commit('setLogo', this.$route.params.term)
+    this.timeout = setTimeout(() => {
+      M.toast({
+        html: '<div class="toast-text">Timeout loading</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
+
+      this.$router.push("/")
+    }, 1000 * 5);
     this.$store.commit('setCharList', await getMarvels('characters', this.$route.params.term))
     this.$store.commit('setSerieList', await getMarvels('series', this.$route.params.term))
+
+    clearTimeout(this.timeout)
     this.loadedLists = true
   }
 }

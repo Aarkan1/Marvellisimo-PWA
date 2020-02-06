@@ -2,7 +2,7 @@ import { client, collUsers } from '../services/stitch.js'
 
 export default {
   template: `
-    <form @submit.prevent="login()" id="login-page" class="container">
+    <form @submit.prevent="login()" id="login-page" class="container" autocomplete="off">
       <div class="input-field">
         <input id="username" placeholder="Username" v-model="username" type="text" class="validate">
       </div>

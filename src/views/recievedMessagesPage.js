@@ -53,6 +53,15 @@ export default {
   },
   async created() {
     this.$store.commit("setLogo", "Recieved Messages")
+    this.timeout = setTimeout(() => {
+      M.toast({
+        html: '<div class="toast-text">Timeout loading</div>', 
+        classes: 'toast', 
+        displayLength: 2000
+      })
+
+      this.$router.push("/")
+    }, 1000 * 5);
     this.messages = await collSend.find({ receiverId: client.auth.user.id }).toArray()
     this.messages = await Promise.all(this.messages.map(async m => {
       let marvel = await getMarvels(m.type == 'character' ? 'characters' : 'series', '', m.itemId)
@@ -60,6 +69,8 @@ export default {
       m.name = (marvel[0].name || marvel[0].title)
       return m
     }))
+
+    clearTimeout(this.timeout)
     this.loadedLists = true
     console.log(this.messages);
   }

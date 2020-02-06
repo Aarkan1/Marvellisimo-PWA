@@ -63,6 +63,7 @@ export default {
     }
   },
   async created() {
+    this.$store.commit("setLogo", "Friends")
     this.friends = await collUsers.find().asArray()
 
     this.loadedLists = true

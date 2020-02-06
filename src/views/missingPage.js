@@ -8,5 +8,8 @@ export default {
         </div>
       </div>
     </div>
-  `
+  `,
+  created() {
+    this.$store.commit("setLogo", "Marvellisimo")
+  },
 }

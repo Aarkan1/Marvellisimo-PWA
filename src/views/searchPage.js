@@ -4,7 +4,7 @@ export default {
       <div class="row">
         <div class="input-field search col s10">
           <i class="material-icons prefix">search</i>
-          <input id="icon_prefix" @keyup.enter="doSearch" v-model="searchTerm" type="text">
+          <input id="icon_prefix" autocomplete="off" @keyup.enter="doSearch" v-model="searchTerm" type="text">
           <label for="icon_prefix">Search</label>
         </div>
         <button class="btn-floating btn-large btn-flat" @click="doSearch"><i class="material-icons black-text">image_search</i></button>
