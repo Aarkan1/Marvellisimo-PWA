@@ -59,13 +59,13 @@ export default {
 
     this.timeout = setTimeout(() => {
       M.toast({
-        html: '<div class="toast-text">Timeout loading</div>', 
+        html: '<div class="toast-text">Loading timeout</div>', 
         classes: 'toast', 
         displayLength: 2000
       })
 
       this.$router.push("/")
-    }, 1000 * 5);
+    }, this.$store.state.timeoutDuration);
 
     await Promise.all(this.$store.state.user.favoriteCharacters.map(async charID => this.favoriteCharacters.push(await getMarvels('characters', '', charID))))
     await Promise.all(this.$store.state.user.favoriteSeries.map(async serieID => this.favoriteSeries.push(await getMarvels('series', '', serieID))))

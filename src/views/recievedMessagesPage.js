@@ -55,21 +55,37 @@ export default {
     this.$store.commit("setLogo", "Recieved Messages")
     this.timeout = setTimeout(() => {
       M.toast({
-        html: '<div class="toast-text">Timeout loading</div>', 
+        html: '<div class="toast-text">Loading timeout</div>', 
         classes: 'toast', 
         displayLength: 2000
       })
 
       this.$router.push("/")
-    }, 1000 * 5);
+    }, this.$store.state.timeoutDuration);
+
+    // let fromIDB = await IDB.read('recieved-messages', client.auth.user.id)
+    // if(fromIDB) {
+    //   this.messages = fromIDB.data
+    // }
+    
     this.messages = await collSend.find({ receiverId: client.auth.user.id }).toArray()
+
+    // if(!!fetched[0]) {
+    //   this.messages = fetched
+    //   let idbData = {
+    //     id: client.auth.user.id,
+    //     data: this.messages
+    //   }
+    //   await IDB.write('recieved-messages', idbData)
+    // }
+
     this.messages = await Promise.all(this.messages.map(async m => {
       let marvel = await getMarvels(m.type == 'character' ? 'characters' : 'series', '', m.itemId)
       m.thumbnail = marvel[0].thumbnail
       m.name = (marvel[0].name || marvel[0].title)
       return m
     }))
-
+    
     clearTimeout(this.timeout)
     this.loadedLists = true
     console.log(this.messages);

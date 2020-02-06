@@ -1,6 +1,9 @@
 importScripts('/src/libs/idb.js')
 importScripts('/src/services/IndexedDB-utils.js')
 
+const STATIC_CACHE = 'static-cache-v2'
+const DYNAMIC_CACHE = 'dynamic-cache-v3'
+
 const preCache = [
   '/',
   '/index.html',
@@ -17,9 +20,6 @@ const preCache = [
   // '/src/libs',
   // '/src/views',
 ]
-
-const STATIC_CACHE = 'static-cache-v1'
-const DYNAMIC_CACHE = 'dynamic-cache-v1'
 
 const activateEvent = async () => {
   let keyList = await caches.keys();

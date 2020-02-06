@@ -48,17 +48,17 @@ export default {
 
     this.timeout = setTimeout(() => {
       M.toast({
-        html: '<div class="toast-text">Timeout loading</div>', 
+        html: '<div class="toast-text">Loading timeout</div>', 
         classes: 'toast', 
         displayLength: 2000
       })
 
       this.$router.push("/")
-    }, 1000 * 5);
+    }, this.$store.state.timeoutDuration);
     
     this.result = await getMarvels(this.$route.query.char ? 'characters' : 'series', '', this.$route.params.id)
     this.item = this.result[0]
-    
+
     clearTimeout(this.timeout)
     this.$store.commit("setLogo", (this.item.name || this.item.title))
   }
