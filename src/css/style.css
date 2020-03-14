@@ -26,6 +26,10 @@ img {
   border-radius: 25px;
 }
 
+i, .friend-username {
+  cursor: pointer;
+}
+
 .toast-text {
   width: 100%;
   text-align: center;

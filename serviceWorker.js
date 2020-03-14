@@ -1,8 +1,8 @@
 importScripts('/src/libs/idb.js')
 importScripts('/src/services/IndexedDB-utils.js')
 
-const STATIC_CACHE = 'static-cache-v2'
-const DYNAMIC_CACHE = 'dynamic-cache-v3'
+const STATIC_CACHE = 'static-cache-v3'
+const DYNAMIC_CACHE = 'dynamic-cache-v4'
 
 const preCache = [
   '/',
@@ -76,3 +76,47 @@ self.addEventListener("fetch", e => {
   if (e.request.method !== "GET" || e.request.url.includes('marvel/i/mg')) return
   return e.respondWith(cacheFirst(e))
 });
+
+const notifyRoute = async e => {
+  let { url } = e.notification.data
+  let clis = await clients.matchAll()
+  let client = clis.find(c => c.visibilityState === 'visible')
+  if(client !== undefined) {
+    client.navigate(url)
+    client.focus()
+  } else {
+    clients.openWindow(url)
+  }
+  e.notification.close()
+}
+
+self.addEventListener('notificationclick', e => {
+  console.log(e.notification)
+
+  e.waitUntil(notifyRoute(e))
+})
+
+self.addEventListener('push', e => {
+  let data = {
+    title: 'New something',
+    content: 'What happened?',
+    url: '/'
+  }
+  
+  e.data && (data = JSON.parse(e.data.text()))
+  
+  const options = {
+    body: data.content,
+    icon: '/src/assets/icons/icon-96x96.png',
+    badge: '/src/assets/icons/icon-96x96.png',
+    data: {
+      url: data.url
+    },
+    tag: 'new-message',
+    renotify: false
+  }
+
+  e.waitUntil(
+    self.registration.showNotification(data.title, options)
+  )
+})

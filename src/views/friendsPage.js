@@ -30,6 +30,7 @@ export default {
         <li v-for="friend in filteredFriends" 
         @click="sendMarvel(friend.uid)"
         :key="friend.uid"
+        class="friend-username"
         >{{ friend.username }}</li>
       </ul>
     </div>
@@ -45,8 +46,22 @@ export default {
   },
   methods: {
     async sendMarvel(toUserId) {
+      if(!this.sendData) return
+
       this.sendData.receiverId = toUserId
       await collSend.insertOne(this.sendData).catch(console.error)
+
+      fetch('/api/send-notifications/' + toUserId, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: 'New marvel from ' + this.$store.state.user.username,
+          content: 'Check out this new marvel!',
+          url: '/recieved-messages'
+        })
+      })
 
       M.toast({
         html: '<div class="toast-text">Sent Marvel</div>', 

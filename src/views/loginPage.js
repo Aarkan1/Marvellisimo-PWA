@@ -1,4 +1,5 @@
 import { client, collUsers } from '../services/stitch.js'
+import { subToNotifications } from '../services/notifications.js'
 
 export default {
   template: `
@@ -73,6 +74,7 @@ export default {
         result && await collUsers.findOneAndReplace({ uid: result.uid }, result).catch(console.error)
       }
       
+      subToNotifications()
       this.$store.commit('setUser', result)
       this.$router.replace("/")
     },
