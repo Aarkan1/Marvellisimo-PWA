@@ -1,5 +1,5 @@
 import { urlBase64ToUint8Array } from './utilities.js'
-import { client, collSubs } from './stitch.js'
+import { client } from './stitch.js'
 
 export async function subToNotifications() {
   if('Notification' in window) {
@@ -28,17 +28,15 @@ async function configPushSub() {
       applicationServerKey: publicKey
     })
 
-    let sub = {
-      newSub,
-      userId: client.auth.user.id
-    }
-
     let res = await fetch('/api/subscriptions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newSub)
+      body: JSON.stringify({
+        newSub,
+        userId: client.auth.user.id
+      })
     })
     res = await res.json()
     console.log('sub id:', res.subId);
@@ -47,11 +45,6 @@ async function configPushSub() {
       uid: 'sub-id',
       id: res.subId
     })
-
-    let dbSub = await collSubs.findOne({ uid: idbSub.id })
-    if(!dbSub.userIds.includes(client.auth.user.id)) dbSub.userIds.push(client.auth.user.id)
-    await collSubs.findOneAndReplace({ uid: idbSub.id }, dbSub).catch(console.error)
-
   } else {
     // have sub
     // swNotification()

@@ -31,9 +31,9 @@ const publicKey = 'BAvY4M_56t_c_9SoNEIkxjjEcc_V55gO2Cm7GPZNHKwTZu2tHcXFiDScshESK
 const privateKey = '2mTSkEePckd__m6Wq7u8m7VEmgAArWH71FNFj90kKv8'
 
 app.post('/api/subscriptions', (req, res) => {
-  const sub = new Sub(req.body)
+  const sub = new Sub(req.body.newSub)
   sub.uid = sub._id.toString()
-  // sub.userIds.push(req.body.userId)
+  sub.userIds = [req.body.userId]
 
   sub.save()
   res.json({ subId: sub._id })
