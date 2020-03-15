@@ -2,7 +2,7 @@ export default {
   template: `
     <div @click="goToDetails" class="card small waves-effect waves-light">
       <div class="card-image">
-        <img :src="data.thumbnail.path.replace('http:', 'https:') + '.' + data.thumbnail.extension" />
+        <img :src="data.thumbnail.path.replace('http://', 'https://') + '.' + data.thumbnail.extension" />
       </div>
       <div class="card-content">
       <span class="card-title">

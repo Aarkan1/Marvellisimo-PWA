@@ -4,7 +4,7 @@ export default {
   template: `
     <div id="details-page">
       <div>
-        <img v-if="item.thumbnail" :src="item.thumbnail.path + '.' + item.thumbnail.extension" />
+        <img v-if="item.thumbnail" :src="item.thumbnail.path.replace('http://', 'https://') + '.' + item.thumbnail.extension" />
       </div>
       <h3 class="container">{{ item.name || item.title }}</h3>
       <p class="container">{{ item.description }}</p>

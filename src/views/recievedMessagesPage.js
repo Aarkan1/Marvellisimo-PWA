@@ -24,7 +24,7 @@ export default {
       @click="goToDetails(message.itemId, message.type == 'character')" 
       class="card small waves-effect waves-light recieved-message">
       <div class="card-image">
-        <img v-if="message.thumbnail" :src="message.thumbnail.path.replace('http:', 'https:') + '.' + message.thumbnail.extension" />
+        <img v-if="message.thumbnail" :src="message.thumbnail.path.replace('http://', 'https://') + '.' + message.thumbnail.extension" />
       </div>
       <div class="card-content">
         <p>{{ message.name }}</p> 
