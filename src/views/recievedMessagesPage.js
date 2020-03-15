@@ -88,6 +88,5 @@ export default {
     
     clearTimeout(this.timeout)
     this.loadedLists = true
-    console.log(this.messages);
   }
 }

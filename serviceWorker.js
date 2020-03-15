@@ -2,7 +2,7 @@ importScripts('/src/libs/idb.js')
 importScripts('/src/services/IndexedDB-utils.js')
 
 const STATIC_CACHE = 'static-cache-v3'
-const DYNAMIC_CACHE = 'dynamic-cache-v4'
+const DYNAMIC_CACHE = 'dynamic-cache-v3'
 
 const preCache = [
   '/',
@@ -56,7 +56,7 @@ const cacheFirst = async e => {
   }
 };
 
-self.addEventListener("install", (e) => {
+self.addEventListener("install", async (e) => {
   e.waitUntil(
     caches.open(STATIC_CACHE)
       .then(function (cache) {
@@ -91,12 +91,10 @@ const notifyRoute = async e => {
 }
 
 self.addEventListener('notificationclick', e => {
-  console.log(e.notification)
-
   e.waitUntil(notifyRoute(e))
 })
 
-self.addEventListener('push', e => {
+self.addEventListener('push', async e => {
   let data = {
     title: 'New something',
     content: 'What happened?',
@@ -104,11 +102,17 @@ self.addEventListener('push', e => {
   }
   
   e.data && (data = JSON.parse(e.data.text()))
-  
+
+  // TODO: doesn't work, notifies everyone!!
+  // only notify the receiver of the message
+  let activeUserId = await IDB.read('user-data', 'active-user')
+  console.log('idb user:', activeUserId.id);
+  if(data.userId !== activeUserId.id) return
+
   const options = {
     body: data.content,
     icon: '/src/assets/icons/icon-96x96.png',
-    badge: '/src/assets/icons/icon-96x96.png',
+    badge: '/src/assets/badge-52x52.png',
     data: {
       url: data.url
     },
@@ -116,7 +120,5 @@ self.addEventListener('push', e => {
     renotify: false
   }
 
-  e.waitUntil(
-    self.registration.showNotification(data.title, options)
-  )
+  self.registration.showNotification(data.title, options)
 })

@@ -2,7 +2,7 @@ import { collUsers } from '../services/stitch.js'
 
 export const store = new Vuex.Store({
   state: {
-    timeoutDuration: 1000 * 10,
+    timeoutDuration: 1000 * 5,
     user: null,
     logo: 'Marvellisimo',
     characterList: [],
@@ -11,7 +11,13 @@ export const store = new Vuex.Store({
   mutations: {
     async setUser(state, user) {
       state.user = {...user}
-      await IDB.write('user-data', user)
+      user && await IDB.write('user-data', user)
+
+      user && await IDB.write('user-data', {
+        uid: 'active-user',
+        id: user.uid || ''
+      })
+      localStorage['active-user'] = user.uid || ''
     },   
     setLogo(state, logo) {
       state.logo = logo

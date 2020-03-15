@@ -1,9 +1,9 @@
-import { client, collUsers } from '../services/stitch.js'
+import { client, collUsers, collSubs } from '../services/stitch.js'
 import { subToNotifications } from '../services/notifications.js'
 
 export default {
   template: `
-    <form @submit.prevent="login()" id="login-page" class="container" autocomplete="off">
+    <div id="login-page" class="container" autocomplete="off">
       <h1 class="marvel-logo">Marvellisimo</h1>
       <div class="input-field">
         <input id="username" placeholder="Username" v-model="username" type="text" class="validate">
@@ -12,11 +12,11 @@ export default {
         <input id="email" placeholder="Email" v-model="email" type="email" class="validate">
       </div>
       <div class="input-field">
-        <input id="password" placeholder="Password" v-model="password" type="password" class="validate">
+        <input id="password" @keyup.enter.prevent.stop="login()" placeholder="Password" v-model="password" type="password" class="validate">
       </div>
       <div class="login-buttons">
-        <button class="btn" @click="login()">login</button>
-        <button class="btn" @click="register()">register</button>
+        <button class="btn" @click.prevent.stop="login()">login</button>
+        <button class="btn" @click.prevent.stop="register()">register</button>
       </div>
       <div v-if="loggingIn" class="spinner login-spinner">
       <div class="preloader-wrapper big active">
@@ -31,7 +31,7 @@ export default {
         </div>
       </div>
     </div>
-    </form>
+    </div>
   `,
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
     }
   },
   methods: {
-    async login(registered = false) {
+    async login(registered) {
       this.loggingIn = true
       const { UserPasswordCredential } = stitch
 
@@ -74,9 +74,16 @@ export default {
         result && await collUsers.findOneAndReplace({ uid: result.uid }, result).catch(console.error)
       }
       
-      subToNotifications()
       this.$store.commit('setUser', result)
       this.$router.replace("/")
+
+      await subToNotifications()
+      let idbSub = await IDB.read('user-data', 'sub-id')
+      if(idbSub) {
+        let sub = await collSubs.findOne({ uid: idbSub.id })
+        if(!sub.userIds.includes(client.auth.user.id)) sub.userIds.push(client.auth.user.id)
+        await collSubs.findOneAndReplace({ uid: idbSub.id }, sub).catch(console.error)
+      }
     },
     async register() {
       const { UserPasswordAuthProviderClient } = stitch
@@ -102,7 +109,7 @@ export default {
 
       this.login(true)
     },
-    async createNewUser(id) {
+    async createNewUser(id) {      
       const newUser = {
         _id: new stitch.BSON.ObjectId(id),
         uid: id,
@@ -120,6 +127,8 @@ export default {
     }
   },
   created() {
+    console.log('Mounting LoginPage');
+    
     if(client.auth.isLoggedIn) {
       this.$router.replace("/")
     }
