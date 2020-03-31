@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "web-push": "web-push"
+    "web-push": "web-push",
+    "build": "webpack --config=webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,11 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.4",
     "web-push": "^3.4.3"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }

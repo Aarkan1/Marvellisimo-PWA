@@ -76,7 +76,7 @@ app.post('/api/send-notifications/:id', (req, res) => {
   res.json({ message: 'ok' })
 })
 
-app.use(express.static(__dirname + "/"));
+app.use(express.static(__dirname + "/src/"));
 app.get('*', function(req, res) {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/src/index.html");
 });
