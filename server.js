@@ -1,6 +1,7 @@
 const express = require("express");
 const port = 3020
 const app = express();
+const gzippo = require('gzippo');
 const webpush = require('web-push')
 const mongoose = require("mongoose")
 const atlasKey = 'mongodb+srv://flexy:3rtkLpYHaBKsDN8U@cluster0-myi0o.mongodb.net/marvellisimo?retryWrites=true&w=majority'
@@ -76,7 +77,11 @@ app.post('/api/send-notifications/:id', (req, res) => {
   res.json({ message: 'ok' })
 })
 
-app.use(express.static(__dirname + "/"));
+// app.use(express.static(__dirname + "/"));
+app.use(gzippo.staticGzip(__dirname + '/'));
 app.get('*', function(req, res) {
+  // if(req.url.endsWith('.gz')) {
+  //   res.setHeader('Content-Encoding', 'gzip')
+  // }
   res.sendFile(__dirname + "/index.html");
 });
