@@ -1,8 +1,8 @@
 importScripts('/src/libs/idb.js')
 importScripts('/src/services/IndexedDB-utils.js')
 
-const STATIC_CACHE = 'static-cache-v3'
-const DYNAMIC_CACHE = 'dynamic-cache-v3'
+const STATIC_CACHE = 'static-cache-v4'
+const DYNAMIC_CACHE = 'dynamic-cache-v4'
 
 const preCache = [
   '/',
