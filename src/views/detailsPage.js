@@ -26,7 +26,8 @@ export default {
         itemId: '' + this.item.id,
         type: this.$route.query.char ? "character" : "serie",
         senderName: this.$store.state.user.username,
-        date: '' + Date.now()
+        date: '' + Date.now(),
+        url: `/details/${this.item.id}${this.$route.query.char ? '?char=true' : ''}`
       }
 
       this.$router.push({

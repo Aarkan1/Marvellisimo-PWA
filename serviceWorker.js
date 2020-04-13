@@ -1,33 +1,23 @@
 importScripts('/src/libs/idb.js')
 importScripts('/src/services/IndexedDB-utils.js')
 
-const STATIC_CACHE = 'static-cache-v4'
-const DYNAMIC_CACHE = 'dynamic-cache-v4'
+const VERSION = 6
+const STATIC_CACHE = 'static-cache-v' + VERSION
+const DYNAMIC_CACHE = 'dynamic-cache-v' + VERSION
 
 const preCache = [
   '/',
   '/index.html',
-  '/favorites',
-  '/recieved-messages',
-  '/friends',
-  '/search',
-  '/details',
-  '/src/main.js',
-  // '/src/components/navbar.js',
-  // '/src/components/searchListItem.js',
-  // '/src/assets/marvel_bg.jpg',
-  // '/src/css',
-  // '/src/libs',
-  // '/src/views',
+  '/dist/main.js',
 ]
 
 const activateEvent = async () => {
   let keyList = await caches.keys();
   return Promise.all(
     keyList.map(key => {
-        console.log("[Service Worker] Removing old cache:", key);
-        return caches.delete(key);
-      })
+      console.log("[Service Worker] Removing old cache:", key);
+      return caches.delete(key);
+    })
   );
 };
 
@@ -121,4 +111,23 @@ self.addEventListener('push', async e => {
   }
 
   self.registration.showNotification(data.title, options)
+})
+
+const syncMessages = async () => {
+  let data = await IDB.readAll('sync-messages')
+  for(let dt of data) {
+    let res = await fetch('/api/send-message', {
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dt)
+    })
+
+    res.ok && await IDB.delete('sync-messages', dt.id)
+  }
+}
+
+self.addEventListener('sync', e => {
+  if(e.tag === 'sync-send-marvel') {
+    e.waitUntil(syncMessages())
+  }
 })

@@ -8,6 +8,9 @@ let dbPromise = idb.open("marvels-store", 1, function(db) {
   if (!db.objectStoreNames.contains("recieved-messages")) {
     db.createObjectStore("recieved-messages", { keyPath: "id" });
   }
+  if (!db.objectStoreNames.contains("sync-messages")) {
+    db.createObjectStore("sync-messages", { keyPath: "id" });
+  }
 });
 
 class IDB {
@@ -46,7 +49,6 @@ class IDB {
     let tx = db.transaction(store, "readwrite");
     let st = tx.objectStore(store);
     st.delete(id);
-    console.log("Deleted item with id:", id);
     return tx.complete;
   }
 }

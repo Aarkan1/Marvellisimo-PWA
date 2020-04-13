@@ -11,3 +11,11 @@ new Vue({
   router,
   render: h => h(app)
 }).$mount('#app');
+
+window.addEventListener('online', () => {
+  console.log("You are now back online.");
+});
+
+window.addEventListener('offline', () => {
+  console.log("You lost connection.");
+});
