@@ -46,7 +46,7 @@ app.post('/api/subscriptions', (req, res) => {
   sub.uid = sub._id.toString()
   sub.userIds = [req.body.userId]
 
-  sub.save()
+  sub.save() 
   res.json({ subId: sub._id })
 })
 
