@@ -2,7 +2,7 @@ import { collUsers } from '../services/stitch.js'
 
 export const store = new Vuex.Store({
   state: {
-    timeoutDuration: 1000 * 5,
+    timeoutDuration: 1000 * 10,
     user: null,
     logo: 'Marvellisimo',
     characterList: [],
