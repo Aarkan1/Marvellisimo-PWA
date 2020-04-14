@@ -20,6 +20,16 @@ const Sub = mongoose.model('Sub', {
   userIds: [String]
 })
 
+const Message = mongoose.model('Message', {
+  id: String,
+  senderId: String, 
+  receiverId: String, 
+  itemId: String,
+  type: String,
+  senderName: String,
+  date: String
+}, 'send')
+
 db.on("error", () => console.log("Couldn't connect to DB"));
 
 db.once("open", () => {
@@ -36,7 +46,7 @@ app.post('/api/subscriptions', (req, res) => {
   sub.uid = sub._id.toString()
   sub.userIds = [req.body.userId]
 
-  sub.save()
+  sub.save() 
   res.json({ subId: sub._id })
 })
 
@@ -66,6 +76,13 @@ const sendNotification = async (id, body) => {
     })
   })
 }
+
+app.post('/api/send-message', async (req, res) => {
+  const message = new Message(req.body.message)
+  await message.save()
+  sendNotification(req.body.message.receiverId, req.body.notify)
+  res.json({ message: 'ok' })
+})
 
 app.post('/api/send-notifications', (req, res) => {
   sendNotification()

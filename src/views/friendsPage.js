@@ -1,4 +1,5 @@
-import { collUsers, collSend } from '../services/stitch.js'
+import { collUsers } from '../services/stitch.js'
+import { uuid } from '../services/utilities.js'
 
 export default {
   template: `
@@ -47,22 +48,35 @@ export default {
   methods: {
     async sendMarvel(toUserId) {
       if(!this.sendData) return
-
       this.sendData.receiverId = toUserId
-      await collSend.insertOne(this.sendData).catch(console.error)
-
-      fetch('/api/send-notifications/' + toUserId, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
+      
+      let data = {
+        id: uuid(),
+        message: this.sendData,
+        notify: {
           title: 'New marvel from ' + this.$store.state.user.username,
           content: 'Check out this new marvel!',
-          url: '/recieved-messages'
-        })
-      })
+          url: this.sendData.url
+        }
+      }
 
+      if('serviceWorker' in navigator && 'SyncManager' in window) {
+        await IDB.write('sync-messages', data)
+        
+        const sw = await navigator.serviceWorker.ready
+        await sw.sync.register('sync-send-marvel')
+        
+      } else {
+        console.log('Cannot sync messages');
+        // No service worker or sync manager
+        let res = await fetch('/api/send-message', {
+          method: 'POST', 
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+
+      }
+      
       M.toast({
         html: '<div class="toast-text">Sent Marvel</div>', 
         classes: 'toast', 
