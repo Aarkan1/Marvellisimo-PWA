@@ -12,10 +12,24 @@ new Vue({
   render: h => h(app)
 }).$mount('#app');
 
+
 window.addEventListener('online', () => {
   console.log("You are now back online.");
+  let toastElement = document.querySelector('.bottom-toast');
+  let toastInstance = M.Toast.getInstance(toastElement);
+  toastInstance.dismiss();
 });
 
 window.addEventListener('offline', () => {
   console.log("You lost connection.");
+  M.toast({
+    html: `
+      <div class="bottom-toast-text">
+        <i class="material-icons">signal_wifi_off</i>
+        You're currently offline
+      </div>
+    `, 
+    classes: 'bottom-toast', 
+    displayLength: Infinity
+  })
 });

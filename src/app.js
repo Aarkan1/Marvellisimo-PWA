@@ -31,9 +31,14 @@ export default {
     setTimeout(async () => {
       user = await collUsers.findOne({ uid: client.auth.user.id }).catch(e => {
         M.toast({
-          html: '<div class="toast-text">Currently offline</div>', 
-          classes: 'toast', 
-          displayLength: 2000
+          html: `
+            <div class="bottom-toast-text">
+              <i class="material-icons">signal_wifi_off</i>
+              You're currently offline
+            </div>
+          `, 
+          classes: 'bottom-toast', 
+          displayLength: Infinity
         })
         return
       })

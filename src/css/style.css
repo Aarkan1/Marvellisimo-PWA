@@ -26,6 +26,31 @@ img {
   border-radius: 25px;
 }
 
+.toast-text, .bottom-toast-text {
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+}
+
+.bottom-toast {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: unset !important;
+  margin: 0;
+  height: 50px;
+  width: 100%;
+  font-size: 1.5em;
+  color: #eee;
+  background-color: rgb(29, 29, 29);
+  border-radius: 0;
+  user-select: none;
+}
+
+.bottom-toast-text i {
+  float: left;
+}
+
 .hero-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -44,12 +69,6 @@ img {
 
 i, .friend-username {
   cursor: pointer;
-}
-
-.toast-text {
-  width: 100%;
-  text-align: center;
-  font-weight: 400;
 }
 
 .send-marvel-btn {

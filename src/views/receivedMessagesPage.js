@@ -63,21 +63,17 @@ export default {
       this.$router.push("/")
     }, this.$store.state.timeoutDuration);
 
-    // let fromIDB = await IDB.read('recieved-messages', client.auth.user.id)
-    // if(fromIDB) {
-    //   this.messages = fromIDB.data
-    // }
-    
-    this.messages = await collSend.find({ receiverId: client.auth.user.id }).toArray()
-
-    // if(!!fetched[0]) {
-    //   this.messages = fetched
-    //   let idbData = {
-    //     id: client.auth.user.id,
-    //     data: this.messages
-    //   }
-    //   await IDB.write('recieved-messages', idbData)
-    // }
+    let fromIDB = await IDB.read('received-messages', client.auth.user.id)
+    if(fromIDB) {
+      this.messages = fromIDB.data
+    } else { 
+      this.messages = await collSend.find({ receiverId: client.auth.user.id }).toArray()
+      let idbData = {
+        id: client.auth.user.id,
+        data: this.messages
+      }
+      await IDB.write('received-messages', idbData)
+    }
 
     this.messages = await Promise.all(this.messages.map(async m => {
       let marvel = await getMarvels(m.type == 'character' ? 'characters' : 'series', '', m.itemId)
@@ -88,5 +84,8 @@ export default {
     
     clearTimeout(this.timeout)
     this.loadedLists = true
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeout)
   }
 }

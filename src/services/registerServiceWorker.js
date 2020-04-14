@@ -1,6 +1,6 @@
 import { eventBus } from "../main.js";
 
-const deployed = false
+const deployed = true
 
 if (deployed) {
   if ("serviceWorker" in navigator) {

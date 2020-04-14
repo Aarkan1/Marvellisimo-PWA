@@ -60,5 +60,8 @@ export default {
 
     clearTimeout(this.timeout)
     this.loadedLists = true
+  },
+  beforeDestroy() {
+    clearTimeout(this.timeout)
   }
 }

@@ -23,6 +23,8 @@ export default {
   },
   methods: {
     doSearch(){
+      if(!this.searchTerm.trim()) return
+
       const inList = this.searchHistory.filter(item => item.term == this.searchTerm).length > 0
 
       if(!inList) {
