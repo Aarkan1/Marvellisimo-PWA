@@ -28,8 +28,8 @@ export default {
         </div>
       </div>
     </div>
-      <div v-else>
-        <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" />
+      <div v-else class="hero-list">
+        <searchListItem class="list-item" v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" />
       </div>
     </div>
   `,

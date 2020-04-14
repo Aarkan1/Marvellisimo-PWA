@@ -1,8 +1,8 @@
-importScripts('/src/libs/idb.js')
-importScripts('/src/services/IndexedDB-utils.js')
+importScripts('/libs/idb.js')
+importScripts('/services/IndexedDB-utils.js')
 
-const STATIC_CACHE = 'static-cache-v4'
-const DYNAMIC_CACHE = 'dynamic-cache-v4'
+const STATIC_CACHE = 'static-cache-v5'
+const DYNAMIC_CACHE = 'dynamic-cache-v5'
 
 const preCache = [
   '/',
@@ -12,13 +12,7 @@ const preCache = [
   '/friends',
   '/search',
   '/details',
-  '/src/main.js',
-  // '/src/components/navbar.js',
-  // '/src/components/searchListItem.js',
-  // '/src/assets/marvel_bg.jpg',
-  // '/src/css',
-  // '/src/libs',
-  // '/src/views',
+  '/main.js'
 ]
 
 const activateEvent = async () => {
@@ -111,8 +105,8 @@ self.addEventListener('push', async e => {
 
   const options = {
     body: data.content,
-    icon: '/src/assets/icons/icon-96x96.png',
-    badge: '/src/assets/badge-52x52.png',
+    icon: '/assets/icons/icon-96x96.png',
+    badge: '/assets/badge-52x52.png',
     data: {
       url: data.url
     },

@@ -77,11 +77,12 @@ app.post('/api/send-notifications/:id', (req, res) => {
   res.json({ message: 'ok' })
 })
 
-// app.use(express.static(__dirname + "/"));
+// gzip all js files
 app.use(gzippo.staticGzip(__dirname + '/'));
+app.use(gzippo.staticGzip(__dirname + '/src'));
+app.use(gzippo.staticGzip(__dirname + '/src/dist'));
+
+// SPA, frontend routing
 app.get('*', function(req, res) {
-  // if(req.url.endsWith('.gz')) {
-  //   res.setHeader('Content-Encoding', 'gzip')
-  // }
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/src/index.html");
 });

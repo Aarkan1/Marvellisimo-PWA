@@ -1,6 +1,6 @@
 import homePage from '../views/homePage.js'
 import favoritesPage from '../views/favoritesPage.js'
-import recievedMessagesPage from '../views/recievedMessagesPage.js'
+import receivedMessagesPage from '../views/receivedMessagesPage.js'
 import friendsPage from '../views/friendsPage.js'
 import searchPage from '../views/searchPage.js'
 import searchListPage from '../views/searchListPage.js'
@@ -19,6 +19,7 @@ export const router = new VueRouter({
     {
       name: "favorites",
       path: '/favorites', 
+      // component: () => import('../views/favoritesPage.js')
       component: favoritesPage
     },
     {
@@ -27,28 +28,33 @@ export const router = new VueRouter({
       component: loginPage
     },
     {
-      name: "recievedMessages",
-      path: '/recieved-messages', 
-      component: recievedMessagesPage
+      name: "receivedMessages",
+      path: '/received-messages', 
+      // component: () => import('../views/recievedMessagesPage.js')
+      component: receivedMessagesPage
     },
     {
       name: "friends",
       path: '/friends', 
+      // component: () => import('../views/friendsPage.js')
       component: friendsPage
     },
     {
       name: "searchPage",
       path: '/search', 
+      // component: () => import('../views/searchPage.js')
       component: searchPage
     },
     {
       name: "searchListPage",
       path: '/search/:term', 
+      // component: () => import('../views/searchListPage.js')
       component: searchListPage
     },
     {
       name: "detailsPage",
       path: '/details/:id', 
+      // component: () => import('../views/detailsPage.js'),
       component: detailsPage,
       params: true
     },

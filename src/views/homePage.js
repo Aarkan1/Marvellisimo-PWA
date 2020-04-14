@@ -9,10 +9,10 @@ export default {
       <p>Search</p>
     </button>
     </router-link>
-    <router-link to="/recieved-messages">
+    <router-link to="/received-messages">
     <button class="menu-item btn-flat waves-effect waves-light">
       <i class="material-icons">chat</i>
-      <p>Recieved Messages</p>
+      <p>Received Messages</p>
     </button>
     </router-link>
     <router-link to="/friends">

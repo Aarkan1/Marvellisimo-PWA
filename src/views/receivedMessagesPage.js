@@ -18,11 +18,11 @@ export default {
         </div>
       </div>
     </div>
-    <div v-else>  
+    <div v-else class="hero-list">  
       <div v-for="message in messages" 
       :key="message.itemId" 
       @click="goToDetails(message.itemId, message.type == 'character')" 
-      class="card small waves-effect waves-light recieved-message">
+      class="list-item card small waves-effect waves-light recieved-message">
       <div class="card-image">
         <img v-if="message.thumbnail" :src="message.thumbnail.path.replace('http://', 'https://') + '.' + message.thumbnail.extension" />
       </div>
@@ -52,7 +52,7 @@ export default {
     }
   },
   async created() {
-    this.$store.commit("setLogo", "Recieved Messages")
+    this.$store.commit("setLogo", "Received Messages")
     this.timeout = setTimeout(() => {
       M.toast({
         html: '<div class="toast-text">Loading timeout</div>', 
