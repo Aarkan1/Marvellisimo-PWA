@@ -51,10 +51,16 @@ img {
   float: left;
 }
 
-.hero-list {
+.hero-list, .page-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .page-buttons {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -69,12 +75,6 @@ img {
 
 i, .friend-username {
   cursor: pointer;
-}
-
-.send-marvel-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
 }
 
 main {
@@ -134,9 +134,10 @@ nav i {
   line-height: 1;
   height: 60px;
   width: 85%;
+  max-width: 450px;
   border-radius: 35px;
   background-color: var(--color-primary-light);
-  margin: 25px;
+  margin: 0 auto;
   padding: 5px;
   font-size: 1.5rem;
 }
@@ -264,6 +265,8 @@ nav i {
 */
 
 #details-page {
+  display: grid;
+  grid-template-columns: 1fr;
   color: var(--color-primary-text);
   background-color: var(--color-primary-light);
   min-height: 100%;
@@ -276,6 +279,18 @@ nav i {
 
 #details-page p {
   font-size: 1.5em;
+}
+
+.send-marvel-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+@media screen and (min-width: 600px) {
+  #details-page {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* 

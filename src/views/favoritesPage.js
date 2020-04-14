@@ -29,7 +29,7 @@ export default {
         </div>
       </div>
     </div>
-    <div v-else> 
+    <div v-else class="hero-list"> 
         <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" @updateFavorite="updateFavorite" />
       </div>
     </div>

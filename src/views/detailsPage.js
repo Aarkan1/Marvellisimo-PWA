@@ -3,12 +3,14 @@ import { getMarvels } from '../services/marvelProvider.js'
 export default {
   template: `
     <div id="details-page">
-      <div>
+      <div class="marvel-image">  
         <img v-if="item.thumbnail" :src="item.thumbnail.path.replace('http://', 'https://') + '.' + item.thumbnail.extension" />
+        <button @click="sendMarvel" class="send-marvel-btn btn-floating blue darken-3 btn-large waves-effect waves-light"><i class="material-icons">send</i></button>
       </div>
-      <h3 class="container">{{ item.name || item.title }}</h3>
-      <p class="container">{{ item.description }}</p>
-      <button @click="sendMarvel" class="send-marvel-btn btn-floating blue darken-3 btn-large waves-effect waves-light"><i class="material-icons">send</i></button>
+      <div>
+        <h3 class="container">{{ item.name || item.title }}</h3>
+        <p class="container">{{ item.description }}</p>
+      </div>
     </div>
   `,
   data() {
