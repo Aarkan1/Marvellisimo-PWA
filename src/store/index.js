@@ -7,7 +7,7 @@ export const store = new Vuex.Store({
     logo: 'Marvellisimo',
     characterList: [],
     serieList: [],
-    isMobile: false,
+    isMobile: true,
     dataToSend: null
   },
   mutations: {
