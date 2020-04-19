@@ -1,6 +1,8 @@
 const express = require("express");
 const port = 3020
 const app = express();
+const path = require('path');
+const fs = require('fs');
 const gzippo = require('gzippo');
 const webpush = require('web-push')
 const mongoose = require("mongoose")
@@ -9,6 +11,20 @@ mongoose.connect(atlasKey, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection;
 
 app.use(express.json())
+
+// update path to main js file
+const indexPath = __dirname + '/src/index.html'
+let indexContent = fs.readFileSync(indexPath, 'utf8')
+fs.writeFileSync(indexPath, indexContent.replace(/src="(main-\w*\.js)"/, 'src="/dist/$1"'))
+
+// update service worker version
+const swPath = __dirname + '/src/serviceWorker.js'
+let swContent = fs.readFileSync(swPath, 'utf8')
+let swLines = swContent.split('\n')
+let swVersion = + swLines[0].split('=')[1]
+swVersion++
+swLines[0] = 'let VERSION=' + swVersion
+fs.writeFileSync(swPath, swLines.join('\n'))
 
 const Sub = mongoose.model('Sub', {
   uid: String,

@@ -1,7 +1,8 @@
+let VERSION=3
+
 importScripts('/libs/idb.js')
 importScripts('/services/IndexedDB-utils.js')
 
-const VERSION = 11
 const STATIC_CACHE = 'static-cache-v' + VERSION
 const DYNAMIC_CACHE = 'dynamic-cache-v' + VERSION
 

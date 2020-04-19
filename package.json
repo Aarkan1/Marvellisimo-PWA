@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "web-push": "web-push",
-    "build": "webpack --config=webpack.config.js"
+    "build": "webpack --config=webpack.config.js && mv ./src/dist/index.html ./src",
+    "start": "npm run build && node server"
   },
   "repository": {
     "type": "git",

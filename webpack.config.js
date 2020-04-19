@@ -4,10 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
+  mode: 'production',
   entry: './src/main.js',
   devtool: 'source-map',
   output: {
-    filename: 'main.js',
+    filename: 'main-[hash].js',
     path: path.resolve(__dirname, 'src/dist')
   },
   plugins: [
@@ -15,7 +16,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: true,
-      template: path.resolve(__dirname, 'src', 'index.html'),
+      template: path.resolve(__dirname, 'src/public', 'index.html'),
     }),
   ],
   optimization: {
