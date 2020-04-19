@@ -1,7 +1,7 @@
 export default {
   template: `
   <div id="home" class="container">
-    <h1 class="marvel-logo">Marvellisimooo</h1>
+    <h1 class="marvel-logo">MMMarvellisimo</h1>
     <div class="page-buttons">
       <router-link to="/search">
       <button class="menu-item btn-flat waves-effect waves-light">
