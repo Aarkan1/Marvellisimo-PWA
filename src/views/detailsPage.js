@@ -6,6 +6,7 @@ export default {
       <div class="marvel-image">  
         <img v-if="item.thumbnail" :src="item.thumbnail.path.replace('http://', 'https://') + '.' + item.thumbnail.extension" />
         <button @click="sendMarvel" class="send-marvel-btn btn-floating blue darken-3 btn-large waves-effect waves-light"><i class="material-icons">send</i></button>
+        <i @click.stop="updateFavorite" class="material-icons">{{ isFavorited ? 'favorite' : 'favorite_border'}}</i>
       </div>
       <div>
         <h3 class="container">{{ item.name || item.title }}</h3>
@@ -21,7 +22,27 @@ export default {
       }
     }
   },
+  computed: {
+    isFavorited() {
+      if(!this.$store.state.user) return
+
+      let isChar = !!this.item.name
+      return this.$store.state.user[isChar ? 'favoriteCharacters' : 'favoriteSeries']
+        .filter(charID => charID == this.item.id).length > 0
+    }
+  },
   methods: {
+    updateFavorite() {
+      let isChar = !!this.item.name
+      let list = this.$store.state.user[isChar ? 'favoriteCharacters' : 'favoriteSeries']
+      if(this.isFavorited) {
+        list.splice(list.indexOf(this.item.id), 1)
+      } else {
+        !list.includes(this.item.id) && list.push(this.item.id)
+      }
+      this.$store.dispatch('updateUser')
+      this.$emit('updateFavorite', this.item.id)
+    },
     sendMarvel() {
       let data = {
         senderId: this.$store.state.user.uid, 
