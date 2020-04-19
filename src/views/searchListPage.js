@@ -1,8 +1,10 @@
 import { getMarvels } from '../services/marvelProvider.js'
 import searchListItem from '../components/searchListItem.js'
+import searchList from '../components/searchList.js'
 
 export default {
   components: {
+    searchList,
     searchListItem
   },
   template: `
@@ -28,8 +30,14 @@ export default {
         </div>
       </div>
     </div>
-      <div v-else class="hero-list">
-        <searchListItem class="list-item" v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" />
+      <div v-else>
+        <searchList
+          :items="activeList"
+          :keyField="'id'"
+          v-slot="{ item }"
+        >
+          <searchListItem class="list-item" :data="item" :char="displayChar" />
+        </searchList>
       </div>
     </div>
   `,
@@ -40,7 +48,7 @@ export default {
     }
   },
   computed: {
-    activeList() {
+    activeList() {      
       return this.displayChar ? this.$store.state.characterList : this.$store.state.serieList
     }
   },

@@ -1,7 +1,11 @@
 import { client, collSend } from '../services/stitch.js'
 import { getMarvels } from '../services/marvelProvider.js'
+import searchList from '../components/searchList.js'
 
 export default {
+  components: {
+    searchList
+  },
   template: `
     <div id="recieved-messages-page" class="container">
 
@@ -19,19 +23,29 @@ export default {
       </div>
     </div>
     <div v-else class="hero-list">  
-      <div v-for="message in messages" 
-      :key="message.itemId" 
-      @click="goToDetails(message.itemId, message.type == 'character')" 
-      class="list-item card small waves-effect waves-light recieved-message">
-      <div class="card-image">
-        <img v-if="message.thumbnail" :src="message.thumbnail.path.replace('http://', 'https://') + '.' + message.thumbnail.extension" />
+
+    <searchList 
+      :items="messages"
+      :keyField="'_id'" 
+      v-slot="{ item }">
+      <div 
+        @click="goToDetails(item.itemId, item.type == 'character')" 
+        class="list-item card small waves-effect waves-light recieved-message"
+      >
+        <div class="card-image">
+          <img 
+            v-if="item.thumbnail" 
+            :src="item.thumbnail.path.replace('http://', 'https://') + '.' + item.thumbnail.extension"
+            :key="item._id"
+          />
+        </div>
+        <div class="card-content">
+          <p>{{ item.name }}</p> 
+          <p>Sender: {{ item.senderName }}</p>
+          <p>Sent: {{ new Date(item.date / 1).toLocaleString() }}</p>
+        </div>
       </div>
-      <div class="card-content">
-        <p>{{ message.name }}</p> 
-        <p>Sender: {{ message.senderName }}</p>
-        <p>Sent: {{ new Date(message.date / 1).toLocaleString() }}</p>
-      </div>
-    </div>
+    </searchList>
   </div>
     </div>
     `,

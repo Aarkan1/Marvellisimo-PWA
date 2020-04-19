@@ -52,5 +52,19 @@ export default {
         displayLength: 2000
       })
     }, 50);
+
+    this.checkMobile()
+    window.addEventListener("resize", () => {
+      this.checkMobile()
+     })
+  },
+  methods: {
+    checkMobile() {
+      const os = navigator.userAgent;
+      const isMobile = os.includes('Android') || os.includes('iPhone') || window.innerWidth < 768;
+      const f = isMobile ? 'add' : 'remove';
+      document.body.classList[f]("mobile");
+      this.$store.commit('setMobile', isMobile)
+    }
   }
 }

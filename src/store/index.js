@@ -6,9 +6,17 @@ export const store = new Vuex.Store({
     user: null,
     logo: 'Marvellisimo',
     characterList: [],
-    serieList: []
+    serieList: [],
+    isMobile: false,
+    dataToSend: null
   },
   mutations: {
+    setDataToSend(state, data) {
+      state.dataToSend = data
+    },
+    setMobile(state, mobile) {
+      state.isMobile = mobile
+    },
     async setUser(state, user) {
       state.user = {...user}
       user && await IDB.write('user-data', user)

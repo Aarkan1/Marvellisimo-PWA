@@ -17,6 +17,18 @@ img {
   --color-divider: #BDBDBD;
 }  
 
+.navbar-fixed, nav {
+  height: 56px;
+}
+
+.desktop-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .toast {
   margin: 50px 10%;
   width: 80%;
@@ -51,7 +63,7 @@ img {
   float: left;
 }
 
-.hero-list, .page-buttons {
+.page-buttons {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
@@ -59,12 +71,6 @@ img {
 
 @media screen and (max-width: 992px) {
   .page-buttons {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .hero-list {
     grid-template-columns: repeat(1, 1fr);
   }
 }
@@ -217,6 +223,7 @@ nav i {
 .card.small {
   height: 120px;
   display: flex;
+  margin: 10px 0;
 }
 
 .card.small .card-content {

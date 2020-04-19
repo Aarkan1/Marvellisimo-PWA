@@ -1,9 +1,11 @@
 import searchListItem from '../components/searchListItem.js'
 import { getMarvels } from '../services/marvelProvider.js'
 import { sleep } from '../services/utilities.js'
+import searchList from '../components/searchList.js'
 
 export default {
   components: {
+    searchList,
     searchListItem
   },
   template: `
@@ -29,10 +31,16 @@ export default {
         </div>
       </div>
     </div>
-    <div v-else class="hero-list"> 
-        <searchListItem v-for="item in activeList" :key="item.id" :data="item" :char="displayChar" @updateFavorite="updateFavorite" />
-      </div>
+    <div v-else> 
+      <searchList
+        :items="activeList"
+        :keyField="'id'"
+        v-slot="{ item }"
+      >
+        <searchListItem class="list-item" :data="item" :char="displayChar" @updateFavorite="updateFavorite"/>
+      </searchList> 
     </div>
+  </div>
   `,
   data() {
     return {
@@ -67,8 +75,18 @@ export default {
       this.$router.push("/")
     }, this.$store.state.timeoutDuration);
 
-    await Promise.all(this.$store.state.user.favoriteCharacters.map(async charID => this.favoriteCharacters.push(await getMarvels('characters', '', charID))))
-    await Promise.all(this.$store.state.user.favoriteSeries.map(async serieID => this.favoriteSeries.push(await getMarvels('series', '', serieID))))
+    await Promise.all(
+      this.$store.state.user.favoriteCharacters
+      .map(async charID => this.favoriteCharacters.push(
+          await getMarvels('characters', '', charID)
+        )
+      ))
+    await Promise.all(
+      this.$store.state.user.favoriteSeries
+      .map(async serieID => this.favoriteSeries.push(
+          await getMarvels('series', '', serieID)
+        )
+      ))
 
     this.favoriteCharacters = this.favoriteCharacters.flat()
     this.favoriteSeries = this.favoriteSeries.flat()

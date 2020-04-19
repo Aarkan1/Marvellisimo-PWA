@@ -32,11 +32,12 @@ export default {
         url: `/details/${this.item.id}${this.$route.query.char ? '?char=true' : ''}`
       }
 
+      this.$store.commit('setDataToSend', data)
+
       this.$router.push({
         path: '/friends',
         query: {
-          toSend: true,
-          data
+          toSend: true
         }
       })
     }
