@@ -1,4 +1,4 @@
-let VERSION=1
+let VERSION=12
 
 importScripts('/libs/idb.js')
 importScripts('/services/IndexedDB-utils.js')

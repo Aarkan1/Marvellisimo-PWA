@@ -270,6 +270,7 @@ nav i {
   border-radius: 30px;
   padding: 0 15px;
   max-width: 500px;
+  margin: 15px auto;
 }
 
 ::placeholder {
