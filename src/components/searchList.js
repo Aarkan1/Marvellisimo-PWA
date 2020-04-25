@@ -36,11 +36,6 @@ export default {
   </div>
   `,
   props: ['items', 'keyField'],
-  // computed: {
-  //   keyField() {
-  //     return this.items[0]._id ? '_id' : 'id'
-  //   }
-  // },
   methods: {
     getList(even) {
       if(even) {
