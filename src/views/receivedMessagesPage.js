@@ -82,6 +82,7 @@ export default {
       this.messages = fromIDB.data
     } else { 
       this.messages = await collSend.find({ receiverId: client.auth.user.id }).toArray()
+      
       let idbData = {
         id: client.auth.user.id,
         data: this.messages
@@ -89,12 +90,15 @@ export default {
       await IDB.write('received-messages', idbData)
     }
 
-    this.messages = await Promise.all(this.messages.map(async m => {
+    let promisedMessages = []
+    await Promise.all(this.messages.map(async m => {
       let marvel = await getMarvels(m.type == 'character' ? 'characters' : 'series', '', m.itemId)
       m.thumbnail = marvel[0].thumbnail
       m.name = (marvel[0].name || marvel[0].title)
-      return m
+      promisedMessages.push(m)
     }))
+
+    this.messages = promisedMessages
     
     clearTimeout(this.timeout)
     this.loadedLists = true
