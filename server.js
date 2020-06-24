@@ -6,9 +6,34 @@ const fs = require('fs');
 const gzippo = require('gzippo');
 const webpush = require('web-push')
 const mongoose = require("mongoose")
+let db;
+//                mongodb+srv://flexy:3rtkLpYHaBKsDN8U@cluster0-myi0o.mongodb.net/marvellisimo?retryWrites=true&w=majority
 const atlasKey = 'mongodb+srv://flexy:3rtkLpYHaBKsDN8U@cluster0-myi0o.mongodb.net/marvellisimo?retryWrites=true&w=majority'
-mongoose.connect(atlasKey, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection;
+const connectionOptions = {
+  autoIndex: false, // Don't build indexes
+  reconnectTries: 30, // Retry up to 30 times
+  reconnectInterval: 500, // Reconnect every 500ms
+  poolSize: 10, // Maintain up to 10 socket connections
+  // If not connected, return errors immediately rather than waiting for reconnect
+  bufferMaxEntries: 0,
+  useNewUrlParser: true, 
+  useUnifiedTopology: true
+}
+
+const connectToDB = () => {
+  mongoose.connect(atlasKey, connectionOptions)
+  .then(() => {
+    console.log("Connected to DB");
+    db = mongoose.connection;
+    app.listen(port, () => console.log("listening on port", port))
+  })
+  .catch(err => {
+    console.log('Connect to DB failed. Retry in 5 sec..');
+    setTimeout(connectToDB, 5000);
+  })
+}
+
+connectToDB()
 
 app.use(express.json())
 
@@ -46,12 +71,12 @@ const Message = mongoose.model('Message', {
   date: String
 }, 'send')
 
-db.on("error", () => console.log("Couldn't connect to DB"));
+// db.on("error", () => console.log("Couldn't connect to DB"));
 
-db.once("open", () => {
-  console.log("Connected to DB");
-  app.listen(port, () => console.log("listening on port", port))
-});
+// db.once("open", () => {
+//   console.log("Connected to DB");
+//   app.listen(port, () => console.log("listening on port", port))
+// });
 
 
 const publicKey = 'BAvY4M_56t_c_9SoNEIkxjjEcc_V55gO2Cm7GPZNHKwTZu2tHcXFiDScshESK29z_tT97I2MLOgNYQIhmyC-SDA'
