@@ -1,5 +1,5 @@
 const express = require("express");
-const port = 3020
+const port = process.env.PORT || 3020
 const app = express();
 const path = require('path');
 const fs = require('fs');
@@ -25,15 +25,12 @@ const connectToDB = () => {
   .then(() => {
     console.log("Connected to DB");
     db = mongoose.connection;
-    app.listen(port, () => console.log("listening on port", port))
   })
   .catch(err => {
     console.log('Connect to DB failed. Retry in 5 sec..');
     setTimeout(connectToDB, 5000);
   })
 }
-
-connectToDB()
 
 app.use(express.json())
 
@@ -144,3 +141,8 @@ app.use(gzippo.staticGzip(__dirname + '/src/dist'));
 app.get('*', function(req, res) {
   res.sendFile(__dirname + "/src/index.html");
 });
+
+app.listen(port, () => {
+  console.log("listening on port", port)
+  connectToDB()
+})
