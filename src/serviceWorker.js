@@ -1,4 +1,4 @@
-let VERSION=12
+let VERSION=13
 
 importScripts('/libs/idb.js')
 importScripts('/services/IndexedDB-utils.js')
@@ -22,8 +22,10 @@ const activateEvent = async () => {
   let keyList = await caches.keys();
   return Promise.all(
     keyList.map(key => {
-      console.log("[Service Worker] Removing old cache:", key);
-      return caches.delete(key);
+      if(key != STATIC_CACHE && key != DYNAMIC_CACHE) {
+        console.log("[Service Worker] Removing old cache:", key);
+        return caches.delete(key);
+      }
     })
   );
 };
